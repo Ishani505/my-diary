@@ -8,11 +8,11 @@ export class DiaryDataService{
 
     public diarySubject = new Subject<DiaryEntry[]>();
 
-    diaryEntries: DiaryEntry[] = [
-        new DiaryEntry("Dec 25th", "Entry 1"),
-        new DiaryEntry("Dec 26th", "Entry 2"),
-        new DiaryEntry("Dec 23rd", "Shared data service entry")
-    ]
+    private diaryEntries: DiaryEntry[] = [
+        new DiaryEntry(1,"Dec 25th", "Entry 1"),
+        new DiaryEntry(2,"Dec 26th", "Entry 2"),
+        new DiaryEntry(3,"Dec 23rd", "Shared data service entry"),
+    ];
 
     onDelete(index: Number){
         this.diaryEntries.splice(+index, 1);
