@@ -11,7 +11,10 @@
         <tr *ngFor="let diaryEntry of diaryEntries">
             <td>{{diaryEntry.date}}</td>
             <td>{{diaryEntry.entry}}</td>
-            <td>Action</td>
+            <td>
+                <button class="btn btn-primary">Edit</button>   
+                <button class="btn btn-danger">Delete</button>
+            </td>
         </tr>       
     </tbody>
 </table>
