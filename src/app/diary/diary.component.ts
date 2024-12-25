@@ -17,4 +17,9 @@ export class DiaryComponent implements OnInit {
     this.diaryEntries = this.diaryDataService.diaryEntries;
   }
 
+  onDelete(index: number){
+    this.diaryDataService.onDelete(index);
+    this.diaryEntries = this.diaryDataService.diaryEntries;
+  }
+
 }

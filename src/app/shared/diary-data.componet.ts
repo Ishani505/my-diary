@@ -9,4 +9,8 @@ export class DiaryDataService{
         new DiaryEntry("Dec 26th", "Entry 2"),
         new DiaryEntry("Dec 23rd", "Shared data service entry")
     ]
+
+    onDelete(index: Number){
+        this.diaryEntries.splice(+index, 1);
+    }
 }
