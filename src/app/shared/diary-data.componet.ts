@@ -4,6 +4,7 @@ import { DiaryEntry } from "./diary-entry.model";
 
 @Injectable({providedIn:"root"})
 export class DiaryDataService{
+    
 
     public diarySubject = new Subject<DiaryEntry[]>();
 
@@ -21,7 +22,18 @@ export class DiaryDataService{
     onAddDiaryEntry(diaryEntry: DiaryEntry){
         this.diaryEntries.push(diaryEntry);
         this.diarySubject.next(this.diaryEntries)
-               }
+    }
+
+    
+    getDiaryEntry(index: number){
+      
+        return{...this.diaryEntries[index]};
+    }
+
+    onUpdateEntry(paramId: number, newEntry: DiaryEntry) {
+        this.diaryEntries[paramId] = newEntry;
+        this.diarySubject.next(this.diaryEntries);
+      }
        
 
 }
