@@ -6,6 +6,8 @@ import { HttpClient } from "@angular/common/http";
 @Injectable({providedIn:"root"})
 export class DiaryDataService{
 
+    public maxId: number;
+
     constructor(private http: HttpClient){}
 
 
@@ -54,10 +56,14 @@ export class DiaryDataService{
    
 
     onAddDiaryEntry(diaryEntry: DiaryEntry){
-        this.http.post<{message: string}>('http://localhost:3000/add-entry', diaryEntry).subscribe((jsonData) => {
-            //console.log(diaryEntry);
-            this.getDiaryEntries();
-        })
+        this.http.get<{maxId: number}>('http://localhost:3000/max-id').subscribe((jasonData => {
+            diaryEntry.id = jasonData.maxId +1;
+            this.http.post<{message: string}>('http://localhost:3000/add-entry', diaryEntry).subscribe((jsonData) => {
+                console.log(diaryEntry);
+                this.getDiaryEntries();
+            })
+        }))
+
     }
 
     /* onUpdateEntry(paramId: number, newEntry: DiaryEntry) {
