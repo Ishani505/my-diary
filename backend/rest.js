@@ -27,6 +27,27 @@ app.get('/max-id', (req, res) => {
     res.json({maxId: max});
 })
 
+app.delete('/remove-entry/:id', (req, res) => {
+    const index = diaryEntries.findIndex(el => {
+        return el.id == req.params.id;
+    })
+    diaryEntries.splice(index, 1);
+    res.status(200).json({
+        message: 'post deleted'
+    })
+})
+
+app.put('/update-entry/:id', (req, res) => {
+    const index = diaryEntries.findIndex(el => {
+        return el.id == req.params.id;
+    })
+    diaryEntries[index] = {id: req.body.id, date: req.body.date, entry: req.body.entry}
+    res.status(200).json({
+        message: 'Updated!'
+    })
+})
+
+
 app.post('/add-entry', (req, res) => {
     diaryEntries.push({id: req.body.id, date: req.body.date, entry: req.body.entry});
     res.status(200).json({

@@ -11,15 +11,13 @@ export class DiaryDataService{
     constructor(private http: HttpClient){}
 
 
-    updateEntry(index: number, entry: DiaryEntry) {
-            this.diaryEntries[index] = entry;
-            this.diarySubject.next(this.diaryEntries);
-
-            /* this.http.put<{message: string}>('http://localhost:3000/update-entry/' + id, entry).subscribe((jsonData) => {
-                console.log(jsonData.message);
-                this.getDiaryEntries();
-            }) */
-        }
+    updateEntry(id: number, entry: DiaryEntry) {
+        
+        this.http.put<{message: string}>('http://localhost:3000/update-entry/' + id, entry).subscribe((jsonData) => {
+            console.log(jsonData.message);
+            this.getDiaryEntries();
+        })
+    }
     
 
     public diarySubject = new Subject<DiaryEntry[]>();
@@ -31,13 +29,11 @@ export class DiaryDataService{
     } */
 
     onDeleteEntry(id: Number){
-        this.diaryEntries.splice(+id, 1);
-        this.diarySubject.next(this.diaryEntries);
 
-        /* this.http.delete<{message: string}>('http://localhost:3000/remove-entry/' + id).subscribe((jsonData) => {
+            this.http.delete<{message: string}>('http://localhost:3000/remove-entry/' + id).subscribe((jsonData) => {
             console.log(jsonData.message);
             this.getDiaryEntries();
-            }) */
+            }) 
     }
 
     
@@ -49,8 +45,10 @@ export class DiaryDataService{
     }
     
     getDiaryEntry(id: number){
-      
-        return{...this.diaryEntries[id]};
+        const index = this.diaryEntries.findIndex(el => {
+            return el.id == id;
+        })
+        return this.diaryEntries[index];
     }
 
    
