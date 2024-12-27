@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -7,6 +8,14 @@ diaryEntries = [
     { id: 2, date: "March 2nd", entry: "Entry2" },
     { id: 3, date: "March 3rd", entry: "Entry3" },
 ];
+app.use(bodyParser.json());
+
+app.post('/add-entry', (req, res) => {
+    diaryEntries.push({id: req.body.id, date: req.body.date, entry: req.body.entry});
+    res.status(200).json({
+        message: 'post submitted'
+    })
+})
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,7 +24,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/diary-entries',(req, res, next) => {
+app.get('/diary-entries',(req, res, next) => {
     res.json({'diaryEntries': diaryEntries});
 
 })

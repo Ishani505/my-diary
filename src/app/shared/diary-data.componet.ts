@@ -54,8 +54,10 @@ export class DiaryDataService{
    
 
     onAddDiaryEntry(diaryEntry: DiaryEntry){
-        this.diaryEntries.push(diaryEntry);
-        this.diarySubject.next(this.diaryEntries)
+        this.http.post<{message: string}>('http://localhost:3000/add-entry', diaryEntry).subscribe((jsonData) => {
+            //console.log(diaryEntry);
+            this.getDiaryEntries();
+        })
     }
 
     /* onUpdateEntry(paramId: number, newEntry: DiaryEntry) {
