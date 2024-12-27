@@ -37,23 +37,22 @@ app.get('/max-id', (req, res) => {
 })
 
 app.delete('/remove-entry/:id', (req, res) => {
-    const index = diaryEntries.findIndex(el => {
-        return el.id == req.params.id;
-    })
-    diaryEntries.splice(index, 1);
-    res.status(200).json({
-        message: 'post deleted'
+    DiaryEntryModel.deleteOne({_id: req.params.id})
+    .then(() => {
+        res.status(200).json({
+            message: 'Post Deleted'
+        })
     })
 })
 
 app.put('/update-entry/:id', (req, res) => {
-    const index = diaryEntries.findIndex(el => {
-        return el.id == req.params.id;
-    })
-    diaryEntries[index] = {id: req.body.id, date: req.body.date, entry: req.body.entry}
-    res.status(200).json({
-        message: 'Updated!'
-    })
+    const updatedEntry = new DiaryEntryModel({_id: req.params.id, date: req.body.date, entry: req.body.entry})
+    DiaryEntryModel.updateOne({_id: req.body.id}, updatedEntry)
+        .then(() => {
+            res.status(200).json({
+                message: 'Update completed'
+            })    
+        })
 })
 
 
@@ -69,7 +68,13 @@ app.post('/add-entry', (req, res) => {
 })
 
 app.get('/diary-entries',(req, res, next) => {
-    res.json({'diaryEntries': diaryEntries});
+    DiaryEntryModel.find()
+    .then((data) => {
+        res.json({'diaryEntries': data});
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
 
 })
 
