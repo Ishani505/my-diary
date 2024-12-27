@@ -11,34 +11,41 @@ import { Router } from '@angular/router';
 })
 export class DiaryComponent implements OnInit, OnDestroy {
 
-  diaryEntries: DiaryEntry[];
-  diarySubscription = new Subscription();
+  diaryEntries: DiaryEntry[] = [];
+  diaryEntriesSub = new Subscription();
 
   constructor(private diaryDataService: DiaryDataService, private router: Router) {}
+
+  ngOnDestroy(): void {
+    this.diaryEntriesSub.unsubscribe();
+  }
   
 
   ngOnInit(): void {
-    this.diarySubscription = this.diaryDataService.diarySubject.subscribe( diaryEntries => {
-      this.diaryEntries = this.diaryEntries;
+    this.diaryDataService.getDiaryEntries();
+    this.diaryEntriesSub = this.diaryDataService.diarySubject.subscribe(entries => {
+      this.diaryEntries = entries;
     })
-    this.diaryEntries = this.diaryDataService.diaryEntries;
-  }
-
-  ngOnDestroy(): void {
-    this.diarySubscription.unsubscribe();
-  }
-
-  onDelete(index: number){
-    this.diaryDataService.onDelete(index);
     
   }
 
-  onEdit(index: number) {
-    this.router.navigate(['edit',index])
+  
+
+  onDelete(id: number){
+    this.diaryDataService.onDeleteEntry(id);
+    
   }
 
-  getDiaryEntry(index: number){
-    return{...this.diaryEntries[index]}
+  onEdit(id: number) {
+    this.router.navigate(['edit',id])
   }
+
+  /*getDiaryEntry(index: number){
+    return{...this.diaryEntries[index]}
+  }*/
+
+  /*getDiaryEntry(index: number): DiaryEntry {
+    return this.diaryEntries[index];
+  }*/
 
 }
