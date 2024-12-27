@@ -59,11 +59,13 @@ app.put('/update-entry/:id', (req, res) => {
 
 app.post('/add-entry', (req, res) => {
     const diaryEntry = new DiaryEntryModel({date: req.body.date, entry: req.body.entry});
-    console.log(diaryEntry);
-    diaryEntries.push({id: req.body.id, date: req.body.date, entry: req.body.entry});
-    res.status(200).json({
-        message: 'post submitted'
-    })
+    diaryEntry.save()
+        .then(() => {
+            res.status(200).json({
+                message: 'post submitted'
+            })
+        })
+    
 })
 
 app.get('/diary-entries',(req, res, next) => {
