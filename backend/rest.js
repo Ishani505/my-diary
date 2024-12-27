@@ -1,8 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const DiaryEntryModel = require('./entry-schema');
+const mongoose = require('mongoose');
 
 const app = express();
+mongoose.connect("mongodb+srv://Ishani:Yoba1995@cluster0.w8cy8.mongodb.net/diarydb?retryWrites=true&w=majority&appName=Cluster0")
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch(() => {
+        console.log('failed to connect to MongoDB');
+    })
 
 diaryEntries = [
     { id: 1, date: "March 1st", entry: "Entry1" },
